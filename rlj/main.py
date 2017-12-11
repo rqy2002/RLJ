@@ -48,7 +48,7 @@ def printResult(result, silent=False):
 			print(addColor(statusColor[st], st[0]), end='')
 			num[st] += 1
 			sys.stdout.flush()
-		rint()
+		print()
 		for st in statusColor:
 			if not num[st]: continue
 			print(addColor(statusColor[st], st[0] + ':%d' % num[st]), end = ' ')

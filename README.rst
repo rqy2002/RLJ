@@ -57,6 +57,14 @@ Config文件
 
 生成 ``config.json`` 。
 
+数据
+----
+
+请将所需的输入输出数据文件置于 ``data`` 文件夹下。
+
+如，上面的测试文件的例子中， ``data`` 下应有： ``example1.in``, ``example1.ans``, ``example2.in`` 等文件。
+
+
 评测
 ----
 
@@ -65,6 +73,8 @@ Config文件
  $ rlj [-s|--slient] [-j Source | --judge Source] [-c Config]
 
 只调用 ``rlj`` 即可评测。
+
+若要简化其输出，请调用 ``rlj --silent`` 或 ``rlj -s``
 
 具体用法请参照 ``rlj -h``
 
