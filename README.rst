@@ -11,11 +11,11 @@ RLJ
 安装
 ====
 
-可以通过 ``pip`` 安装。
+可以通过 ``pip3`` 安装。
 
 .. code-block:: bash
 
- $ pip install --upgrade https://github.com/rqy1458814497/RLJ/archive/master.tar.gz
+ $ pip3 install --upgrade https://github.com/rqy1458814497/RLJ/archive/master.tar.gz
 
 或者通过 ``git``
 
