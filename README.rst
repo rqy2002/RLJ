@@ -1,10 +1,11 @@
 ---
 RLJ
 ---
-
 一个便捷的本地评测器。By _rqy.
 
-`屏幕截图<https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif>`_
+ 屏幕截图_
+
+.. _屏幕截图: https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif
 
 .. contents::
 
