@@ -4,6 +4,13 @@ RLJ
 
 一个便捷的本地评测器。By _rqy.
 
+.. class:: no-web
+
+    .. image:: https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif
+        :alt: HTTPie compared to cURL
+        :width: 100%
+        :align: centerk
+
 .. contents::
 
 .. section-numbering::
@@ -45,7 +52,7 @@ Config文件
    "Input"        : "example#.in",
    "Output"       : "example#.ans",
    "#"            : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-   "Time Limit"   : 1,
+   "Time Limit"   : 1000,
    "Memory Limit" : 128
  }
 
@@ -53,9 +60,9 @@ Config文件
 
 .. code-block:: bash
 
- $ rlj --genConfig
+ $ rlj --genConfig [FILE]
 
-生成 ``config.json`` 。
+生成 ``config.json`` （或指定FILE参数以更改文件名）。
 
 数据
 ----
@@ -70,7 +77,7 @@ Config文件
 
 .. code-block:: bash
 
- $ rlj [-s|--slient] [-j Source | --judge Source] [-c Config]
+ $ rlj [-s|--slient] [-j Source | --judge Source] [-c ConfigFile]
 
 只调用 ``rlj`` 即可评测。
 
