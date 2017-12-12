@@ -20,7 +20,7 @@ Options:
 '''
 
 __author__  = '_rqy'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __license__ = 'MIT Linsence'
 from . import judge
 import colorama
@@ -106,8 +106,8 @@ def genConfig(fileName):
 		except ValueError:
 			pass
 	num = range(a, b + 1)
-	time_limit = input('  时间限制(s)（默认为1）:')
-	if not time_limit: time_limit = '1'
+	time_limit = input('  时间限制(ms)（默认为1000）:')
+	if not time_limit: time_limit = '1000'
 	memory_limit = input('  空间限制(MB)（默认为128）:')
 	if not memory_limit: memory_limit = '128'
 	with open(fileName, 'w') as f:
