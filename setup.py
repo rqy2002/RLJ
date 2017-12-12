@@ -25,7 +25,7 @@ setup(
 		'psutil>=5.4.1',
 	],
     classifiers=[
-        'Development Status :: 1 - Beta',
+        'Development Status :: 4 - Beta',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.1',
@@ -36,6 +36,6 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Environment :: Console',
         'License :: OSI Approved :: MIT License',
-        'Intended Audience :: OIers',
+        'Intended Audience :: Information Technology',
     ],
 )

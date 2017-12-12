@@ -18,7 +18,7 @@ RLJ
 
 .. code-block:: bash
 
- $ pip3 install --upgrade https://github.com/rqy1458814497/RLJ/archive/master.tar.gz
+ $ pip3 install --upgrade rlj
 
 或者通过 ``git``
 
