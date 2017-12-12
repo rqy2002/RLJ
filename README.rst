@@ -4,12 +4,7 @@ RLJ
 
 一个便捷的本地评测器。By _rqy.
 
-.. class:: no-web
-
-    .. image:: https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif
-        :alt: HTTPie compared to cURL
-        :width: 100%
-        :align: centerk
+`屏幕截图<https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif>`_
 
 .. contents::
 
