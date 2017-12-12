@@ -1,26 +1,26 @@
 ---
 RLJ
 ---
-一个便捷的本地评测器。By _rqy.
+A convenient local judge. By _rqy.
 
- 屏幕截图_
+ Screenshoot_
 
-.. _屏幕截图: https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif
+.. _Screenshoot: https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif
 
 .. contents::
 
 .. section-numbering::
 
-安装
-====
+Install
+=======
 
-可以通过 ``pip3`` 安装。
+You can install it by ``pip3``.
 
 .. code-block:: bash
 
  $ pip3 install --upgrade rlj
 
-或者通过 ``git``
+Or by ``git``
 
 .. code-block:: bash
 
@@ -29,17 +29,17 @@ RLJ
  $ sudo python3 setup.py install
 
 
-使用
-====
+Usage
+=====
 
-Config文件
-----------
+Config File
+-----------
 
-创建 ``config.json`` 文件，该文件应包含以下几项：
+Make a File named ``config.json``, It should include:
 
-``Source`` （可选）， ``Input`` ， ``Output`` ， ``#`` ， ``Time Limit`` ， ``Memory Limit``
+``Source``(optional),  ``Input``,  ``Output``,  ``#``,  ``Time Limit``,  ``Memory Limit``, ``Compiling Parameter``.
 
-例如：
+For example:
 
 .. code-block:: json
 
@@ -52,40 +52,40 @@ Config文件
    "Memory Limit" : 128
  }
 
-更简单的方法是输入
+A easier way is run:
 
 .. code-block:: bash
 
  $ rlj --genConfig [FILE]
 
-生成 ``config.json`` （或指定FILE参数以更改文件名）。
+to generate ``config.json`` (and use the argument 'FILE' to modify its name).
 
-数据
+Data
 ----
 
-请将所需的输入输出数据文件置于 ``data`` 文件夹下。
+Please place all data files under the folder ``data``.
 
-如，上面的测试文件的例子中， ``data`` 下应有： ``example1.in``, ``example1.ans``, ``example2.in`` 等文件。
+e.g. in the case of the config file above,  There should be these files in ``data``: ``example1.in``, ``example1.ans``, ``example2.in``, and so on.
 
 
-评测
-----
+Judge
+-----
 
 .. code-block:: bash
 
  $ rlj [-s|--slient] [-j Source | --judge Source] [-c ConfigFile] [--O2]
 
-只调用 ``rlj`` 即可评测。
+To judge you only need to run ``rlj``
 
-若要简化其输出，请调用 ``rlj --silent`` 或 ``rlj -s``
+If you want to see short output, you can run ``rlj --silent`` or ``rlj -s``
 
-具体用法请参照 ``rlj -h``
+For more detail you can run ``rlj -h``.
 
-编译选项
---------
+Compiling Parameter
+-------------------
 
-默认无任何编译选项。
+No parameter is applied when compiling by default.
 
-可通过在 ``config.json`` 中加入 ``Compiling Parameter`` 添加编译选项。
+You can add ``Compiling Parameter`` in ``config.json``.
 
-``--O2`` 可以在运行时制定，参照上文。
+``--O2`` is able to be set when running. See above.
