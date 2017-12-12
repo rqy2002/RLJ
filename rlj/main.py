@@ -21,7 +21,7 @@ Options:
 '''
 
 __author__  = '_rqy'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __license__ = 'MIT Linsence'
 from . import judge
 import colorama
