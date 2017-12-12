@@ -28,14 +28,14 @@ class Compiler(object):
 
 	def compile(self, source=None):
 		begin_time = time.time()
-		compile_Parameter = self.config.get('Compiling parameter', '')
+		compile_Parameter = self.config.get('Compiling Parameter', '')
 		if source is None:
 			source = self.config.get('Source')
 		if source is None:
 			raise FileNotFoundError(
 			'没有源文件！（请在config.json里设置源文件或执行时指定！）')
 		compile_method = "g++ {file} {Para} -o temp/prog 2> temp/compile.log"
-		command = compile_method.format(file=source, Para=compile_parameter)
+		command = compile_method.format(file=source, Para=compile_Parameter)
 		if os.system(command):
 			return (False, time.time() - begin_time)
 		else:
