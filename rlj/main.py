@@ -4,7 +4,7 @@
 
 Usage:
   rlj -h | --help | --version
-  rlj [-s] [-j Source] [-c Config]
+  rlj [-s] [-j Source] [-c Config] [--O2]
   rlj --genConfig [FILE]
 
 Arguments:
@@ -16,11 +16,12 @@ Options:
   -s --silent                简化输出消息
   -j Source --judge=Source   评测制定源文件
   -c Config --config=Config  指定配置文件 [default: config.json]
+  --O2                       编译时打开O2选项
   --genConfig                生成配置文件
 '''
 
 __author__  = '_rqy'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __license__ = 'MIT Linsence'
 from . import judge
 import colorama
@@ -136,6 +137,9 @@ def main():
 			raise FileNotFoundError('配置文件{}不存在！'.format(configFile))
 		with open(configFile, 'r') as f:
 			config = json.load(f)
+		if arguments['--O2']:
+			config['Compiling Parameter'] = '-O2 ' + config.get(
+					'Compiling Parameter', '')
 		checkIOFiles(config)
 		compiler = judge.Compiler(config)
 		is_silent = arguments['--silent']
@@ -156,7 +160,6 @@ def main():
 			print('你在第{}个测试点出错了，\ndiff信息在diff_log中'.format(
 				judger.firstWA))
 			print('=' * 30)
-
 	except FileNotFoundError as e:
 		print('错误：' + str(e))
 		exit(1)

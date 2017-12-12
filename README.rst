@@ -73,7 +73,7 @@ Config文件
 
 .. code-block:: bash
 
- $ rlj [-s|--slient] [-j Source | --judge Source] [-c ConfigFile]
+ $ rlj [-s|--slient] [-j Source | --judge Source] [-c ConfigFile] [--O2]
 
 只调用 ``rlj`` 即可评测。
 
@@ -81,4 +81,11 @@ Config文件
 
 具体用法请参照 ``rlj -h``
 
+编译选项
+--------
 
+默认无任何编译选项。
+
+可通过在 ``config.json`` 中加入 ``Compiling Parameter`` 添加编译选项。
+
+``--O2`` 可以在运行时制定，参照上文。
