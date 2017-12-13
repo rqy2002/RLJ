@@ -102,7 +102,7 @@ class Judge(object):
             if self.firstWA is None:
                 os.system('cp temp/diff_log' + str(tesk) + ' diff_log')
                 self.firstWA = tesk
-                return JudgeInfo('WA', time_used, max_memory)
+            return JudgeInfo('WA', time_used, max_memory)
 
     def judge(self):
         self.firstWA = None
