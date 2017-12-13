@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#-*- coding=utf-8 -*-
+# -*- coding=utf-8 -*-
 
 from setuptools import setup, find_packages
 import rlj
@@ -9,7 +9,7 @@ setup(
     version=rlj.__version__,
     description=rlj.__doc__.strip(),
     long_description=open('README.rst').read(),
-	url='https://github.com/rqy1458814497/RLJ/',
+    url='https://github.com/rqy1458814497/RLJ/',
     author=rlj.__author__,
     author_email='1458814497@qq.com',
     license=rlj.__license__,
@@ -20,10 +20,10 @@ setup(
         ],
     },
     install_requires=[
-		'docopt>=0.6.2',
-		'colorama>=0.3.9',
-		'psutil>=5.4.1',
-	],
+        'docopt>=0.6.2',
+        'colorama>=0.3.9',
+        'psutil>=5.4.1',
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Programming Language :: Python',
