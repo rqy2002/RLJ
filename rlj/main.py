@@ -27,7 +27,7 @@ import json
 import sys
 import docopt
 __author__ = '_rqy'
-__version__ = '1.0.6'
+__version__ = '1.0.7'
 __license__ = 'MIT Linsence'
 
 

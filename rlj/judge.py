@@ -108,4 +108,4 @@ class Judge(object):
         self.firstWA = None
         for tesk in self.Num:
             yield (tesk, self._judge(tesk))
-            return
+        return
