@@ -20,14 +20,15 @@ Options:
   --genConfig                生成配置文件
 '''
 
-from . import judge
+# from . import judge
+import judge
 import colorama
 import os
 import json
 import sys
 import docopt
 __author__ = '_rqy'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __license__ = 'MIT Linsence'
 
 

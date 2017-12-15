@@ -7,3 +7,7 @@ test
 build/*
 dist/*
 *.egg-info/*
+*apb*
+*/data/*
+*/config.json
+*/temp/*
