@@ -71,8 +71,8 @@ class Judge(object):
                                      stdout=Output, stderr=Err)
             ps = psutil.Process(child.pid)
             while child.poll() is None:
-                mem_info = ps.memory_info()
-                memory = float(mem_info.rss) / 1048576
+                mem_info = ps.memory_full_info()
+                memory = float(mem_info.uss) / 1048576
                 time_used = int((time.time() - begin_time) * 1000)
                 max_memory = max(max_memory, memory)
                 if memory > self.Memory:
