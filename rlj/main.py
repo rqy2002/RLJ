@@ -20,8 +20,8 @@ Options:
   --genConfig                生成配置文件
 '''
 
-# from . import judge
-import judge
+from . import judge
+# import judge
 import colorama
 import os
 import json
