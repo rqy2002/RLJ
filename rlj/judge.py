@@ -6,9 +6,7 @@ import time
 
 
 class JudgeInfo(object):
-    """
-    Info of a judge.
-    """
+    ''' Info of a judge.  '''
     def __init__(self, status, time_used=None,
                  memory_used=None, returncode=None):
         self.status = status
@@ -18,27 +16,32 @@ class JudgeInfo(object):
 
 
 class Compiler(object):
-    """
-    The compiler of RLJ.
-    """
+    ''' The compiler of RLJ.  '''
     def __init__(self, config):
-        self.config = config
-        if os.path.exists("temp"):
-            for f in os.listdir("temp"):
-                os.remove("temp/"+f)
+        self.Source = config['Source']
+        self.parameter = config.get('Compiling Parameter', '')
+        if os.path.exists('temp'):
+            for f in os.listdir('temp'):
+                os.remove('temp/'+f)
         else:
-            os.mkdir("temp")
+            os.mkdir('temp')
 
-    def compile(self, source=None):
+    def compile(self):
+        extension = os.path.splitext(self.Source)[1]
+        temp_file = 'temp/temp{ext}'.format(ext=extension)
+        os.system('cp {file} {temp}'.format(file=self.Source, temp=temp_file))
+        if extension in ['.hs', '.lhs']:
+            compile_method = 'ghc {para} {temp} -o temp/prog\
+                >{null} 2> temp/compile.log'
+        elif extension in ['.ml', '.mli']:
+            compile_method = 'ocamlc {para} {temp} -o temp/prog\
+                >{null} 2> temp/compile.log'
+        else:  # elif extension in ['.c', '.cpp', '.cxx']:
+            compile_method = 'g++ {para} {temp} -o temp/prog\
+                >{null} 2> temp/compile.log'
         begin_time = time.time()
-        compile_Parameter = self.config.get('Compiling Parameter', '')
-        if source is None:
-            source = self.config.get('Source')
-            if source is None:
-                raise FileNotFoundError(
-                    '没有源文件！（请在config.json里设置源文件或执行时指定！）')
-        compile_method = "g++ {file} {Para} -o temp/prog 2> temp/compile.log"
-        command = compile_method.format(file=source, Para=compile_Parameter)
+        command = compile_method.format(
+            null=os.devnull, para=self.parameter, temp=temp_file)
         if os.system(command):
             return (False, time.time() - begin_time)
         else:
@@ -46,9 +49,7 @@ class Compiler(object):
 
 
 class Judge(object):
-    """
-    The judge of RLJ.
-    """
+    ''' The judge of RLJ.  '''
     def __init__(self, config):
         self.Input = config['Input']
         self.Output = config['Output']

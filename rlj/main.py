@@ -27,9 +27,7 @@ import os
 import json
 import sys
 import docopt
-__author__ = '_rqy'
-__version__ = '1.0.10'
-__license__ = 'MIT Linsence'
+from .constants import *
 
 
 def addColor(color, text):
@@ -72,9 +70,11 @@ def printResult(result, silent=False):
         print('=' * 30)
 
 
-def checkIOFiles(config):
+def checkFiles(config):
     Input = config['Input']
     Output = config['Output']
+    if not os.path.exists(config['Source']):
+        raise FileNotFoundError('源文件{}不存在！'.format(config['Source']))
     for tesk in config['#']:
         inputName = str(tesk).join(Input.split('#'))
         outputName = str(tesk).join(Output.split('#'))
@@ -154,13 +154,15 @@ def main():
         if arguments['--O2']:
             config['Compiling Parameter'] = '-O2 ' + config.get(
                     'Compiling Parameter', '')
-        checkIOFiles(config)
+        if arguments['--judge'] is not None:
+            config['Source'] = arguments['--judge']
+        checkFiles(config)
         compiler = judge.Compiler(config)
         is_silent = arguments['--silent']
         if not is_silent:
             print('=' * 30)
             print('正在编译...')
-        compile_status = compiler.compile(source=arguments['--judge'])
+        compile_status = compiler.compile()
         if not compile_status[0]:
             print(addColor('RED', '编译失败'))
             exit(1)
