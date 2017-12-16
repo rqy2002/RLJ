@@ -6,6 +6,7 @@ Usage:
   rlj -h | --help | --version
   rlj [-s] [-j Source] [-c Config] [--O2]
   rlj --genConfig [FILE]
+  rlj -d | --delete
 
 Arguments:
   FILE  生成配置文件位置；若未指定，则为config.json
@@ -18,6 +19,7 @@ Options:
   -c Config --config=Config  指定配置文件 [default: config.json]
   --O2                       编译时打开O2选项
   --genConfig                生成配置文件
+  -d --delete                刪除temp文件夹
 '''
 
 from . import judge
@@ -28,6 +30,7 @@ import json
 import sys
 import docopt
 from .constants import __version__
+# from constants import __version__
 
 
 def addColor(color, text):
@@ -145,6 +148,9 @@ def main():
             fileName = 'config.json'
         genConfig(fileName)
         return
+    elif arguments['--delete']:
+        os.system('rm -rf temp')
+        return
     try:
         configFile = arguments['--config']
         if not os.path.exists(configFile):
@@ -171,7 +177,7 @@ def main():
                 compile_status[1])))
 
         judger = judge.Judge(config)
-        printResult(judger.judge(), is_silent)
+        printResult(judger.judge(compile_status[2]), is_silent)
 
         if not is_silent and judger.firstWA is not None:
             print('你在第{}个测试点出错了，\ndiff信息在diff_log中'.format(

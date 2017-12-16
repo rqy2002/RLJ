@@ -21,16 +21,18 @@ class Compiler(object):
         self.Source = config['Source']
         self.parameter = config.get('Compiling Parameter', '')
         if os.path.exists('temp'):
-            for f in os.listdir('temp'):
-                os.remove('temp/'+f)
-        else:
-            os.mkdir('temp')
+            os.system('rm -rf temp')
+        os.mkdir('temp')
 
     def compile(self):
         extension = os.path.splitext(self.Source)[1]
         temp_file = 'temp/temp{ext}'.format(ext=extension)
         os.system('cp {file} {temp}'.format(file=self.Source, temp=temp_file))
-        if extension in ['.hs', '.lhs']:
+
+        if extension in ['.py']:
+            compile_method = 'python3 {para} -m py_compile {temp}\
+                >{null} 2> temp/compile.log'
+        elif extension in ['.hs', '.lhs']:
             compile_method = 'ghc {para} {temp} -o temp/prog\
                 >{null} 2> temp/compile.log'
         elif extension in ['.ml', '.mli']:
@@ -39,13 +41,25 @@ class Compiler(object):
         else:  # elif extension in ['.c', '.cpp', '.cxx']:
             compile_method = 'g++ {para} {temp} -o temp/prog\
                 >{null} 2> temp/compile.log'
+
         begin_time = time.time()
-        command = compile_method.format(
-            null=os.devnull, para=self.parameter, temp=temp_file)
-        if os.system(command):
-            return (False, time.time() - begin_time)
+        complier_returncode = os.system(compile_method.format(
+            null=os.devnull, para=self.parameter, temp=temp_file))
+        time_used = time.time() - begin_time
+
+        os.system('rm -f {temp}'.format(temp=temp_file))
+
+        if complier_returncode != 0:
+            return (False, time_used)
         else:
-            return (True, time.time() - begin_time)
+            command = 'temp/prog'
+
+            if extension in ['.py']:
+                pycache = 'temp/__pycache__'
+                ll = os.listdir(pycache)
+                command = 'python3 ' + pycache + '/' + ll[0]
+
+            return (True, time_used, command)
 
 
 class Judge(object):
@@ -58,7 +72,7 @@ class Judge(object):
         self.Num = config['#']
         self.firstWA = None
 
-    def _judge(self, tesk):
+    def _judge(self, tesk, prog):
         tesk = str(tesk)
         input_file = tesk.join(self.Input.split('#'))
         try:
@@ -68,7 +82,7 @@ class Judge(object):
             begin_time = time.time()
             max_memory = 0
             time_used = 0
-            child = subprocess.Popen('temp/prog', stdin=Input,
+            child = subprocess.Popen(prog.split(), stdin=Input,
                                      stdout=Output, stderr=Err)
             ps = psutil.Process(child.pid)
             while child.poll() is None:
@@ -97,16 +111,17 @@ class Judge(object):
                 tesk.join(self.Output.split('#')), tesk))
 
         if diff_result == 0:
+            os.system('rm -f temp/diff_log{}'.format(tesk))
             return JudgeInfo('AC', time_used, max_memory)
 
         else:
             if self.firstWA is None:
-                os.system('cp temp/diff_log' + str(tesk) + ' diff_log')
+                os.system('cp temp/diff_log{} diff_log'.format(tesk))
                 self.firstWA = tesk
             return JudgeInfo('WA', time_used, max_memory)
 
-    def judge(self):
+    def judge(self, prog):
         self.firstWA = None
         for tesk in self.Num:
-            yield (tesk, self._judge(tesk))
+            yield (tesk, self._judge(tesk, prog))
         return
