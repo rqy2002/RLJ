@@ -27,7 +27,7 @@ import os
 import json
 import sys
 import docopt
-from .constants import *
+from .constants import __version__
 
 
 def addColor(color, text):
