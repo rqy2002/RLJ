@@ -3,7 +3,6 @@
 
 import os
 
-test_cases = []
 def clean_screen():
     print ('\n' * 100)
 
@@ -21,6 +20,6 @@ def run_test(case):
         exit(0)
 
 test_cases = os.listdir()
-test_cases = test_cases.remove("autotest.py")
+test_cases.remove("autotest.py")
 for i in test_cases:
     run_test(i)
