@@ -3,8 +3,7 @@ using namespace std;
 int marray[(int)1e6];
 int main()
 {
-    int a, b;
-    cin >> a >> b;
-    cout << a + b << endl;
+    cin >> marray[0] >> marray[(int)1e6 - 1];
+    cout << marray[0] + marray[(int)1e6 - 1] << endl;
     while (1);
 }
