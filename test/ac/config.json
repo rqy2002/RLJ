@@ -1,0 +1,8 @@
+{
+  "Source"      : "apb.cpp",
+  "Input"       : "apb#.in",
+  "Output"      : "apb#.ans",
+  "#"           : [1, 2],
+  "Time Limit"  : 1000,
+  "Memory Limit": 128
+}
