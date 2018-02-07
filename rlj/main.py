@@ -188,7 +188,10 @@ def main():
             print('正在编译...')
         compile_status = compiler.compile()
         if not compile_status[0]:
-            print(addBackgroundColor('RED', 'ERROR') + ' ' + addColor('RED', '编译失败'))
+            if compile_status[1] >= 9:
+                print(addBackgroundColor('YELLOW', 'CTLE') + ' ' + addColor('YELLOW', '编译超时'))
+            else:
+                print(addBackgroundColor('RED', 'ERROR') + ' ' + addColor('RED', '编译失败'))
             os.system('cat temp/compile.log')
             exit(1)
         elif not is_silent:
