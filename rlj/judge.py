@@ -22,15 +22,22 @@ class Compiler(object):
         self.parameter = config.get('Compiling Parameter', '')
         if os.path.exists('temp'):
             os.system('rm -rf temp')
-        os.mkdir('temp')
+        try:
+            os.mkdir('temp')
+        except FileExistsError:
+            os.system('rm -rf temp')
 
     def compile(self):
         extension = os.path.splitext(self.Source)[1]
         temp_file = 'temp/temp{ext}'.format(ext=extension)
+        compile_time_out = 'timeout 10s '
         os.system('cp {file} {temp}'.format(file=self.Source, temp=temp_file))
 
         if extension in ['.py']:
             compile_method = 'python3 {para} -m py_compile {temp}\
+                >{null} 2> temp/compile.log'
+        elif extension in ['.js']:
+            compile_method = 'node -c {temp}\
                 >{null} 2> temp/compile.log'
         elif extension in ['.hs', '.lhs']:
             compile_method = 'ghc {para} {temp} -o temp/prog\
@@ -43,11 +50,11 @@ class Compiler(object):
                 >{null} 2> temp/compile.log'
 
         begin_time = time.time()
-        complier_returncode = os.system(compile_method.format(
+        complier_returncode = os.system(compile_time_out + compile_method.format(
             null=os.devnull, para=self.parameter, temp=temp_file))
         time_used = time.time() - begin_time
 
-        os.system('rm -f {temp}'.format(temp=temp_file))
+        # os.system('rm -f {temp}'.format(temp=temp_file))
 
         if complier_returncode != 0:
             return (False, time_used)
@@ -58,6 +65,8 @@ class Compiler(object):
                 pycache = 'temp/__pycache__'
                 ll = os.listdir(pycache)
                 command = 'python3 ' + pycache + '/' + ll[0]
+            elif extension in ['.js']:
+                command = 'node {file}'.format(file=temp_file)
 
             return (True, time_used, command)
 

@@ -36,6 +36,23 @@ from constants import __version__
 def addColor(color, text):
     return getattr(colorama.Fore, color) + text + colorama.Fore.RESET
 
+def addBackgroundColor(color, text):
+    return getattr(colorama.Back, color) + getattr(colorama.Fore, 'BLACK') + ' ' + text + ' ' + colorama.Fore.RESET + colorama.Back.RESET
+
+def getExtensionInfo(source):
+    extension = os.path.splitext(source)[1]
+    language_name = ''
+    if extension in ['.py']:
+        language_name = "Python"
+    elif extension in ['.js']:
+        language_name = "NodeJS"
+    elif extension in ['.hs', '.lhs']:
+        language_name = "Haskell"
+    elif extension in ['.ml', '.mli']:
+        language_name = "OCaml"
+    else:  # elif extension in ['.c', '.cpp', '.cxx']:
+        language_name = "C++"
+    return language_name
 
 def printResult(result, silent=False):
     statusColor = {
@@ -49,14 +66,14 @@ def printResult(result, silent=False):
         num = {'AC': 0, 'WA': 0, 'TLE': 0, 'MLE': 0, 'RE': 0}
         for tesk in result:
             st = tesk[1].status
-            print(addColor(statusColor[st], st[0]), end='')
+            print(addBackgroundColor(statusColor[st], st[0]), end='')
             num[st] += 1
             sys.stdout.flush()
         print()
         for st in statusColor:
             if not num[st]:
                 continue
-            print(addColor(statusColor[st], st[0] + ':%d' % num[st]),
+            print(addBackgroundColor(statusColor[st], st[0] + ':%d' % num[st]),
                   end=' ')
         print()
     else:
@@ -66,7 +83,7 @@ def printResult(result, silent=False):
         for tesk in result:
             s = str(tesk[0]) + '\t'
             st = tesk[1].status
-            s += addColor(statusColor[st], st) + '\t'
+            s += addBackgroundColor(statusColor[st], st) + '\t'
             s += str(int(tesk[1].memory_used)) + 'MB' + '\t'
             s += ('%.3f' % (tesk[1].time_used / 1000)) + 's' + '\t'
             print(s)
@@ -167,13 +184,18 @@ def main():
         is_silent = arguments['--silent']
         if not is_silent:
             print('=' * 30)
+            print(addColor('BLUE', 'Language: ') + addBackgroundColor('BLUE', getExtensionInfo(config['Source'])))
             print('正在编译...')
         compile_status = compiler.compile()
         if not compile_status[0]:
-            print(addColor('RED', '编译失败'))
+            if compile_status[1] >= 9:
+                print(addBackgroundColor('YELLOW', 'CTLE') + ' ' + addColor('YELLOW', '编译超时'))
+            else:
+                print(addBackgroundColor('RED', 'ERROR') + ' ' + addColor('RED', '编译失败'))
+            os.system('cat temp/compile.log')
             exit(1)
         elif not is_silent:
-            print(addColor('GREEN', '编译成功，用时{0:.3f}秒'.format(
+            print(addBackgroundColor('GREEN', 'DONE') + ' ' + addColor('GREEN', '编译成功，用时{0:.3f}秒'.format(
                 compile_status[1])))
 
         judger = judge.Judge(config)
