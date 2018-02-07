@@ -22,7 +22,10 @@ class Compiler(object):
         self.parameter = config.get('Compiling Parameter', '')
         if os.path.exists('temp'):
             os.system('rm -rf temp')
-        os.mkdir('temp')
+        try:
+            os.mkdir('temp')
+        except FileExistsError:
+            os.system('rm -rf temp')
 
     def compile(self):
         extension = os.path.splitext(self.Source)[1]
