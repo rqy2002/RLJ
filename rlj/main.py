@@ -39,6 +39,21 @@ def addColor(color, text):
 def addBackgroundColor(color, text):
     return getattr(colorama.Back, color) + getattr(colorama.Fore, 'BLACK') + ' ' + text + ' ' + colorama.Fore.RESET + colorama.Back.RESET
 
+def getExtensionInfo(source):
+    extension = os.path.splitext(source)[1]
+    language_name = ''
+    if extension in ['.py']:
+        language_name = "Python"
+    elif extension in ['.js']:
+        language_name = "NodeJS"
+    elif extension in ['.hs', '.lhs']:
+        language_name = "Haskell"
+    elif extension in ['.ml', '.mli']:
+        language_name = "OCaml"
+    else:  # elif extension in ['.c', '.cpp', '.cxx']:
+        language_name = "C++"
+    return language_name
+
 def printResult(result, silent=False):
     statusColor = {
             'AC': 'GREEN',
@@ -169,6 +184,7 @@ def main():
         is_silent = arguments['--silent']
         if not is_silent:
             print('=' * 30)
+            print(addColor('BLUE', 'Language: ') + addBackgroundColor('BLUE', getExtensionInfo(config['Source'])))
             print('正在编译...')
         compile_status = compiler.compile()
         if not compile_status[0]:
