@@ -30,6 +30,7 @@ class Compiler(object):
     def compile(self):
         extension = os.path.splitext(self.Source)[1]
         temp_file = 'temp/temp{ext}'.format(ext=extension)
+        compile_time_out = 'timeout 10s '
         os.system('cp {file} {temp}'.format(file=self.Source, temp=temp_file))
 
         if extension in ['.py']:
@@ -49,7 +50,7 @@ class Compiler(object):
                 >{null} 2> temp/compile.log'
 
         begin_time = time.time()
-        complier_returncode = os.system(compile_method.format(
+        complier_returncode = os.system(compile_time_out + compile_method.format(
             null=os.devnull, para=self.parameter, temp=temp_file))
         time_used = time.time() - begin_time
 
