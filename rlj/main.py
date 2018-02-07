@@ -189,6 +189,7 @@ def main():
         compile_status = compiler.compile()
         if not compile_status[0]:
             print(addBackgroundColor('RED', 'ERROR') + ' ' + addColor('RED', '编译失败'))
+            os.system('cat temp/compile.log')
             exit(1)
         elif not is_silent:
             print(addBackgroundColor('GREEN', 'DONE') + ' ' + addColor('GREEN', '编译成功，用时{0:.3f}秒'.format(
