@@ -32,6 +32,9 @@ class Compiler(object):
         if extension in ['.py']:
             compile_method = 'python3 {para} -m py_compile {temp}\
                 >{null} 2> temp/compile.log'
+        elif extension in ['.js']:
+            compile_method = 'node -c {temp}\
+                >{null} 2> temp/compile.log'
         elif extension in ['.hs', '.lhs']:
             compile_method = 'ghc {para} {temp} -o temp/prog\
                 >{null} 2> temp/compile.log'
@@ -47,7 +50,7 @@ class Compiler(object):
             null=os.devnull, para=self.parameter, temp=temp_file))
         time_used = time.time() - begin_time
 
-        os.system('rm -f {temp}'.format(temp=temp_file))
+        # os.system('rm -f {temp}'.format(temp=temp_file))
 
         if complier_returncode != 0:
             return (False, time_used)
@@ -58,6 +61,8 @@ class Compiler(object):
                 pycache = 'temp/__pycache__'
                 ll = os.listdir(pycache)
                 command = 'python3 ' + pycache + '/' + ll[0]
+            elif extension in ['.js']:
+                command = 'node {file}'.format(file=temp_file)
 
             return (True, time_used, command)
 
