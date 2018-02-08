@@ -1,5 +1,5 @@
 #ifdef WIN32
 #include <CON>
 #else
-#include <dev/random>
+#include </dev/random>
 #endif
