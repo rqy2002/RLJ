@@ -11,7 +11,7 @@ def change_dir(dir, cwd):
 
 def run_test(case):
     change_dir(case, work_dir)
-    ret_code = os.system("py -3 ../../rlj/main.py")
+    ret_code = os.system("python3 ../../rlj/main.py")
 
 test_cases = os.listdir()
 test_cases.remove("autotest.py")
