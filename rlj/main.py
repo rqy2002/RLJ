@@ -48,6 +48,8 @@ def getExtensionInfo(source):
         language_name = "NodeJS"
     elif extension in ['.hs', '.lhs']:
         language_name = "Haskell"
+    elif extension in ['.go']:
+        language_name = "Go"
     elif extension in ['.ml', '.mli']:
         language_name = "OCaml"
     else:  # elif extension in ['.c', '.cpp', '.cxx']:

@@ -45,10 +45,13 @@ class Compiler(object):
         elif extension in ['.ml', '.mli']:
             compile_method = 'ocamlc {para} {temp} -o temp/prog\
                 >{null} 2> temp/compile.log'
+        elif extension in ['.go']:
+            compile_method = 'go build {para} -o temp/prog {temp}\
+                >{null} 2> temp/compile.log '
         else:  # elif extension in ['.c', '.cpp', '.cxx']:
             compile_method = 'g++ {para} {temp} -o temp/prog\
                 >{null} 2> temp/compile.log'
-
+        
         begin_time = time.time()
         complier_returncode = os.system(compile_time_out + compile_method.format(
             null=os.devnull, para=self.parameter, temp=temp_file))
