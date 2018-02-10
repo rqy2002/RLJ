@@ -1,15 +1,15 @@
 # RLJ
 
-一个便捷的本地评测器。By \_rqy.
+一个便捷的本地评测器。By \_rqy & Margatroid.
 
-![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif)
+![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.jpg)
+![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/2.jpg)
+![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/3.jpg)
 
-[TOC]
 
+## 安装
 
-## 1.安装
-
-可以通过 ``pip3`` 安装。
+可以通过 ``pip3`` 安装。 **注：目前pip3落后更新**
 
 ```bash
  $ pip3 install --upgrade rlj
@@ -24,9 +24,9 @@
 ```
 
 
-## 2.使用
+## 使用
 
-### 2.1.Config文件
+### Config文件
 
 创建 ``config.json`` 文件，该文件应包含以下几项：
 
@@ -53,14 +53,14 @@
 
 生成 ``config.json`` （或指定FILE参数以更改文件名）。
 
-### 2.2.数据
+### 数据
 
 请将所需的输入输出数据文件置于 ``data`` 文件夹下。
 
 如，上面的测试文件的例子中， ``data`` 下应有： ``example1.in``, ``example1.ans``, ``example2.in`` 等文件。
 
 
-### 2.3.评测
+### 评测
 
 ```bash
  $ rlj [-s|--slient] [-j Source | --judge Source] [-c ConfigFile] [--O2]
@@ -72,7 +72,7 @@
 
 具体用法请参照 ``rlj -h``
 
-### 2.4.编译选项
+### 编译选项
 
 默认无任何编译选项。
 

@@ -51,7 +51,7 @@ class Compiler(object):
         else:  # elif extension in ['.c', '.cpp', '.cxx']:
             compile_method = 'g++ {para} {temp} -o temp/prog\
                 >{null} 2> temp/compile.log'
-        
+
         begin_time = time.time()
         complier_returncode = os.system(compile_time_out + compile_method.format(
             null=os.devnull, para=self.parameter, temp=temp_file))

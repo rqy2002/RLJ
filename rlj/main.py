@@ -22,14 +22,14 @@ Options:
   -d --delete                刪除temp文件夹
 '''
 
-import judge
+from . import judge
 # import judge
 import colorama
 import os
 import json
 import sys
 import docopt
-from constants import __version__
+from .constants import __version__
 # from constants import __version__
 
 
