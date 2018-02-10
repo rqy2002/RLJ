@@ -48,6 +48,9 @@ class Compiler(object):
         elif extension in ['.go']:
             compile_method = 'go build {para} -o temp/prog {temp}\
                 >{null} 2> temp/compile.log '
+        elif extension in ['.rb']:
+            compile_method = 'ruby -c {temp}\
+                >{null} 2> temp/compile.log'
         else:  # elif extension in ['.c', '.cpp', '.cxx']:
             compile_method = 'g++ {para} {temp} -o temp/prog\
                 >{null} 2> temp/compile.log'
@@ -70,6 +73,8 @@ class Compiler(object):
                 command = 'python3 ' + pycache + '/' + ll[0]
             elif extension in ['.js']:
                 command = 'node {file}'.format(file=temp_file)
+            elif extension in ['.rb']:
+                command = 'ruby {file}'.format(file=temp_file)
 
             return (True, time_used, command)
 
