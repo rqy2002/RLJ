@@ -39,6 +39,9 @@ def addColor(color, text):
 def addBackgroundColor(color, text):
     return getattr(colorama.Back, color) + getattr(colorama.Fore, 'BLACK') + ' ' + text + ' ' + colorama.Fore.RESET + colorama.Back.RESET
 
+def addStyle(style, text):
+    return getattr(colorama.Style, style) + text + colorama.Style.RESET_ALL
+
 def getExtensionInfo(source):
     extension = os.path.splitext(source)[1]
     language_name = ''
@@ -48,6 +51,8 @@ def getExtensionInfo(source):
         language_name = "NodeJS"
     elif extension in ['.hs', '.lhs']:
         language_name = "Haskell"
+    elif extension in ['.go']:
+        language_name = "Go"
     elif extension in ['.ml', '.mli']:
         language_name = "OCaml"
     else:  # elif extension in ['.c', '.cpp', '.cxx']:
@@ -184,7 +189,7 @@ def main():
         is_silent = arguments['--silent']
         if not is_silent:
             print('=' * 30)
-            print(addColor('BLUE', 'Language: ') + addBackgroundColor('BLUE', getExtensionInfo(config['Source'])))
+            print(addStyle('BRIGHT', addColor('BLUE', 'Language: ')) + addBackgroundColor('BLUE', getExtensionInfo(config['Source'])))
             print('正在编译...')
         compile_status = compiler.compile()
         if not compile_status[0]:
