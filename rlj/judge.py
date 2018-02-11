@@ -54,6 +54,8 @@ class Compiler(object):
         elif extension in ['.vb']:
             compile_method = 'vbnc {para} /out:temp/prog {temp}\
                 >{null} 2> temp/compile.log'
+        elif extension in ['.kt']:
+            compile_method = 'kotlinc {para} {temp} -include-runtime -d temp/prog.jar'
         elif extension in ['.cs']:
             compile_method = 'mcs {para} /out:temp/prog {temp}\
                 >{null} 2> temp/compile.log'
@@ -86,6 +88,8 @@ class Compiler(object):
                 command = 'ruby {file}'.format(file=temp_file)
             elif extension in ['.cs', '.vb']:
                 command = 'mono {file}'.format(file="temp/prog")
+            elif extension in ['.kt']:
+                command = 'java -jar {file}'.format(file="temp/prog.jar")
 
             return (True, time_used, command)
 

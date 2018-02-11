@@ -59,6 +59,8 @@ def getExtensionInfo(source):
         language_name = "Ruby"
     elif extension in ['.vb']:
         language_name = "Visual Basic"
+    elif extension in ['.kt']:
+        language_name = "Kotlin"
     elif extension in ['.cs']:
         language_name = "C#"
     elif extension in ['.c']:
