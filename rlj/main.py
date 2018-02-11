@@ -55,7 +55,17 @@ def getExtensionInfo(source):
         language_name = "Go"
     elif extension in ['.ml', '.mli']:
         language_name = "OCaml"
-    else:  # elif extension in ['.c', '.cpp', '.cxx']:
+    elif extension in ['.rb']:
+        language_name = "Ruby"
+    elif extension in ['.vb']:
+        language_name = "Visual Basic"
+    elif extension in ['.kt']:
+        language_name = "Kotlin"
+    elif extension in ['.cs']:
+        language_name = "C#"
+    elif extension in ['.c']:
+        language_name = 'C'
+    else:  # elif extension in ['.cpp', '.cxx']:
         language_name = "C++"
     return language_name
 
