@@ -51,8 +51,17 @@ class Compiler(object):
         elif extension in ['.rb']:
             compile_method = 'ruby -c {temp}\
                 >{null} 2> temp/compile.log'
-        else:  # elif extension in ['.c', '.cpp', '.cxx']:
-            compile_method = 'g++ {para} {temp} -o temp/prog\
+        elif extension in ['.vb']:
+            compile_method = 'vbnc {para} /out:temp/prog {temp}\
+                >{null} 2> temp/compile.log'
+        elif extension in ['.cs']:
+            compile_method = 'mcs {para} /out:temp/prog {temp}\
+                >{null} 2> temp/compile.log'
+        elif extension in ['.c']:
+            compile_method = 'gcc {para} {temp} -fdiagnostics-color=always -o temp/prog\
+                >{null} 2> temp/compile.log'
+        else:  # elif extension in ['.cpp', '.cxx']:
+            compile_method = 'g++ {para} {temp} -fdiagnostics-color=always -o temp/prog\
                 >{null} 2> temp/compile.log'
 
         begin_time = time.time()
@@ -75,6 +84,8 @@ class Compiler(object):
                 command = 'node {file}'.format(file=temp_file)
             elif extension in ['.rb']:
                 command = 'ruby {file}'.format(file=temp_file)
+            elif extension in ['.cs', '.vb']:
+                command = 'mono {file}'.format(file="temp/prog")
 
             return (True, time_used, command)
 
