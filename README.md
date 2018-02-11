@@ -2,6 +2,14 @@
 
 一个便捷的本地评测器。By \_rqy & Margatroid.
 
+rlj支持多种语言，包括但不限于：
+- `C/C#/C++`
+- `Java/Kotlin`
+- `Python/NodeJS/Ruby`
+- `OCaml/Haskell`
+
+rlj具有**实验性**跨平台功能
+
 ![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.jpg)
 ![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/2.jpg)
 ![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/3.jpg)
@@ -22,7 +30,9 @@
  $ cd RLJ
  $ sudo python3 setup.py install
 ```
+### Windows用户
 
+如果您是Windows用户，请您安装`git-bash`
 
 ## 使用
 
