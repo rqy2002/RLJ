@@ -12,8 +12,7 @@ languages = [
     {
         'name': 'C',
         'extensions': ['c'],
-        'compile_command':
-            'gcc {para} {file} -fdiagnostics-color=always -o temp/prog',
+        'compile_command': 'gcc {para} {file} -o temp/prog',
         'run_command': 'temp/prog'
     },
     {
@@ -25,8 +24,7 @@ languages = [
     {
         'name': 'C++',
         'extensions': ['cpp', 'cc', 'cxx'],
-        'compile_command':
-            'g++ {para} {file} -fdiagnostics-color=always -o temp/prog',
+        'compile_command': 'g++ {para} {file} -o temp/prog',
         'run_command': 'temp/prog'
     },
     {
