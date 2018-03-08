@@ -57,13 +57,14 @@ def printResult(lang, result, silent=False):
     compile_status = result.__next__()
     color = compileStatusColor[compile_status[0]]
     print(addBgColor(color, compile_status[0])
-          + addColor(color, compile_status[1]))
+          + addColor(color, compile_status[1]), end='')
     if compile_status[0] == 'DONE':
-        print(addColor(color, '用时：%.3f' % compile_status[2]))
+        print(addColor(color, ', 用时：%.3fs' % compile_status[2]))
     else:
+        if not silent:
+            print('\n' + '=' * 30)
         if compile_status[0] == 'ERROR':
             os.system('cat temp/compile.log')
-        if not silent:
             print('=' * 30)
         return False
 
