@@ -1,5 +1,7 @@
 # RLJ
 
+[![Build Status](https://travis-ci.org/rqy1458814497/RLJ.svg?branch=master)](https://travis-ci.org/rqy1458814497/RLJ)
+
 一个便捷的本地评测器。By \_rqy & Margatroid.
 
 ![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.jpg)
@@ -9,7 +11,7 @@
 
 ## 安装
 
-可以通过 ``pip3`` 安装。 **注：目前pip3落后更新**
+可以通过 ``pip3`` 安装。 **
 
 ```bash
  $ pip3 install --upgrade rlj
@@ -80,3 +82,10 @@
 
 ``--O2`` 可以在运行时制定，参照上文。
 
+### TODO
+
+- [x] Make a todo list.
+- [ ] Special Judge Supporting.
+- [ ] Input/Answer file auto matching.
+- [ ] Press ^C to exit directly (instead of get **one** RE).
+- [ ] Find more *TODO*.
