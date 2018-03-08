@@ -1,11 +1,13 @@
 # -*- coding=utf-8 -*-
+" The Compiler and Judger of rlj "
 import os
 import psutil
 import subprocess
 import time
+from .languages import getLanguage
 
 
-class JudgeInfo(object):
+class JudgeStatus(object):
     ''' Info of a judge.  '''
     def __init__(self, status, time_used=None,
                  memory_used=None, returncode=None):
@@ -13,6 +15,17 @@ class JudgeInfo(object):
         self.time_used = time_used
         self.memory_used = memory_used
         self.returncode = returncode
+
+    def __str__(self):
+        return 'JudgeStatus({}, {}, {}, {})'.format(
+            self.status, self.time_used, self.memory_used, self.returncode)
+
+    def __repr__(self):
+        return 'JudgeStatus({}, {}, {}, {})'.format(
+            self.status, self.time_used, self.memory_used, self.returncode)
+
+    def __eq__(self, other):
+        return self.status == other.status
 
 
 class Compiler(object):
@@ -32,29 +45,15 @@ class Compiler(object):
         temp_file = 'temp/temp{ext}'.format(ext=extension)
         compile_time_out = 'timeout 10s '
         os.system('cp {file} {temp}'.format(file=self.Source, temp=temp_file))
+        lang = getLanguage(self.Source)
 
-        if extension in ['.py']:
-            compile_method = 'python3 {para} -m py_compile {temp}\
-                >{null} 2> temp/compile.log'
-        elif extension in ['.js']:
-            compile_method = 'node -c {temp}\
-                >{null} 2> temp/compile.log'
-        elif extension in ['.hs', '.lhs']:
-            compile_method = 'ghc {para} {temp} -o temp/prog\
-                >{null} 2> temp/compile.log'
-        elif extension in ['.ml', '.mli']:
-            compile_method = 'ocamlc {para} {temp} -o temp/prog\
-                >{null} 2> temp/compile.log'
-        elif extension in ['.go']:
-            compile_method = 'go build {para} -o temp/prog {temp}\
-                >{null} 2> temp/compile.log '
-        else:  # elif extension in ['.c', '.cpp', '.cxx']:
-            compile_method = 'g++ {para} {temp} -o temp/prog\
-                >{null} 2> temp/compile.log'
+        compile_command = lang['compile_command']\
+            + '>{null} 2> temp/compile.log'
 
         begin_time = time.time()
-        complier_returncode = os.system(compile_time_out + compile_method.format(
-            null=os.devnull, para=self.parameter, temp=temp_file))
+        complier_returncode = os.system(
+            compile_time_out + compile_command.format(
+                null=os.devnull, para=self.parameter, file=temp_file))
         time_used = time.time() - begin_time
 
         # os.system('rm -f {temp}'.format(temp=temp_file))
@@ -62,20 +61,14 @@ class Compiler(object):
         if complier_returncode != 0:
             return (False, time_used)
         else:
-            command = 'temp/prog'
-
-            if extension in ['.py']:
-                pycache = 'temp/__pycache__'
-                ll = os.listdir(pycache)
-                command = 'python3 ' + pycache + '/' + ll[0]
-            elif extension in ['.js']:
-                command = 'node {file}'.format(file=temp_file)
+            command = lang['run_command'].format(
+                para=self.parameter, file=temp_file)
 
             return (True, time_used, command)
 
 
-class Judge(object):
-    ''' The judge of RLJ.  '''
+class Runner(object):
+    ''' The program runner and checker of RLJ.  '''
     def __init__(self, config):
         self.Input = config['Input']
         self.Output = config['Output']
@@ -109,10 +102,10 @@ class Judge(object):
                 max_memory = max(max_memory, memory)
                 if memory > self.Memory:
                     child.kill()
-                    return JudgeInfo('MLE', time_used, max_memory)
+                    return JudgeStatus('MLE', time_used, max_memory)
                 if time_used > self.Time:
                     child.kill()
-                    return JudgeInfo('TLE', time_used, max_memory)
+                    return JudgeStatus('TLE', time_used, max_memory)
             child.poll()
             returncode = child.returncode
         finally:
@@ -121,7 +114,7 @@ class Judge(object):
             Err.close()
 
         if returncode != 0:
-            return JudgeInfo('RE', time_used, max_memory, returncode)
+            return JudgeStatus('RE', time_used, max_memory, returncode)
 
         diff_result = os.system(
             'diff -Z temp/temp.out data/{} >> temp/diff_log{}'.format(
@@ -129,16 +122,43 @@ class Judge(object):
 
         if diff_result == 0:
             os.system('rm -f temp/diff_log{}'.format(tesk))
-            return JudgeInfo('AC', time_used, max_memory)
+            return JudgeStatus('AC', time_used, max_memory, 0)
 
         else:
             if self.firstWA is None:
                 os.system('cp temp/diff_log{} diff_log'.format(tesk))
                 self.firstWA = tesk
-            return JudgeInfo('WA', time_used, max_memory)
+            return JudgeStatus('WA', time_used, max_memory, 0)
 
-    def judge(self, prog):
+    def run(self, prog):
         self.firstWA = None
         for tesk in self.Num:
             yield (tesk, self._judge(tesk, prog))
+        return
+
+
+class Judge(object):
+    ''' The judge of rlj. '''
+    def __init__(self, config):
+        self.config = config
+        self.runner = Runner(config)
+        self.compiler = Compiler(config)
+
+    def compile(self):
+        compile_status = self.compiler.compile()
+        return compile_status
+
+    def judge(self):
+        compile_status = self.compile()
+        if not compile_status[0]:
+            if compile_status[1] >= 9:
+                yield ('CTLE', '编译超时')
+            else:
+                yield ('ERROR', '编译错误')
+            os.system('cat temp/compile.log')
+            return
+        else:
+            yield ('DONE', '编译成功', compile_status[1])
+        for tesk in self.runner.run(compile_status[2]):
+            yield tesk
         return
