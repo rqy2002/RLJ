@@ -4,11 +4,7 @@
 
 一个便捷的本地评测器。By \_rqy & Margatroid.
 
-rlj支持多种语言，包括但不限于：
-- `C/C#/C++`
-- `Java/Kotlin`
-- `Python/NodeJS/Ruby`
-- `OCaml/Haskell`
+rlj支持多种语言，包括但不限于：`C/C#/C++/Java/Kotlin/Python/NodeJS/Ruby/OCaml/Haskell`
 
 rlj具有**实验性**跨平台功能
 
