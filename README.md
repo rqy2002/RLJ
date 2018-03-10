@@ -2,11 +2,7 @@
 
 [![Build Status](https://travis-ci.org/rqy1458814497/RLJ.svg?branch=master)](https://travis-ci.org/rqy1458814497/RLJ)
 
-一个便捷的本地评测器。By \_rqy & Margatroid.
-
-rlj支持多种语言，包括但不限于：`C/C#/C++/Java/Kotlin/Python/NodeJS/Ruby/OCaml/Haskell`
-
-rlj具有**实验性**跨平台功能
+一个便捷的本地评测器，具有**实验性**跨平台功能。By \_rqy & Margatroid.
 
 ![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.jpg)
 ![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/2.jpg)
@@ -88,7 +84,7 @@ rlj具有**实验性**跨平台功能
 
 ``--O2`` 可以在运行时制定，参照上文。
 
-### TODO
+## TODO
 
 - [x] Make a todo list.
 - [ ] Special Judge Supporting.

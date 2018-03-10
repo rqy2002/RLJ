@@ -40,6 +40,13 @@ languages = [
         'run_command': 'temp/prog'
     },
     {
+        'name': 'Java',
+        'extensions': ['java'],
+        'compile_command':
+            'rm -rf temp && mkdir temp && cp {file} temp/prog.java && javac {para} temp/prog.java -d temp/',
+        'run_command': 'java -cp temp/ prog'
+    },
+    {
         'name': 'Kotlin',
         'extensions': ['kt'],
         'compile_command':
@@ -69,6 +76,13 @@ languages = [
         'extensions': ['rb'],
         'compile_command': 'ruby -c {file}',
         'run_command': 'ruby {file}'
+    },
+    {
+        'name': 'Scala',
+        'extensions': ['scala'],
+        'compile_command':
+            'rm -rf temp && mkdir temp && cp {file} temp/prog.scala && scalac {para} temp/prog.scala -d temp/',
+        'run_command': 'scala -cp temp/ prog'
     },
     {
         'name': 'Visual Basic',
