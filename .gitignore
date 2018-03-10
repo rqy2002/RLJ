@@ -1,8 +1,9 @@
 *.swo
 *.swp
-*/__pycache__
-*/__pycache__/*
+*__pycache__*
+*.pytest_cache*
 build/*
 dist/*
+.tox
 *.egg-info/*
 temp

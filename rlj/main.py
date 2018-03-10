@@ -22,87 +22,87 @@ Options:
   -d --delete                刪除temp文件夹
 '''
 
-from . import judge
-# import judge
 import colorama
 import os
 import json
 import sys
 import docopt
 from .constants import __version__
-# from constants import __version__
+from .languages import getLanguage
+from .judge import Judge
 
 
 def addColor(color, text):
     return getattr(colorama.Fore, color) + text + colorama.Fore.RESET
 
-def addBackgroundColor(color, text):
-    return getattr(colorama.Back, color) + getattr(colorama.Fore, 'BLACK') + ' ' + text + ' ' + colorama.Fore.RESET + colorama.Back.RESET
+
+def addBgColor(color, text):
+    return getattr(colorama.Back, color) + getattr(colorama.Fore, 'BLACK')\
+        + ' ' + text + ' ' + colorama.Fore.RESET + colorama.Back.RESET
+
 
 def addStyle(style, text):
     return getattr(colorama.Style, style) + text + colorama.Style.RESET_ALL
 
-def getExtensionInfo(source):
-    extension = os.path.splitext(source)[1]
-    language_name = ''
-    if extension in ['.py']:
-        language_name = "Python"
-    elif extension in ['.js']:
-        language_name = "NodeJS"
-    elif extension in ['.hs', '.lhs']:
-        language_name = "Haskell"
-    elif extension in ['.go']:
-        language_name = "Go"
-    elif extension in ['.ml', '.mli']:
-        language_name = "OCaml"
-    elif extension in ['.rb']:
-        language_name = "Ruby"
-    elif extension in ['.vb']:
-        language_name = "Visual Basic"
-    elif extension in ['.kt']:
-        language_name = "Kotlin"
-    elif extension in ['.cs']:
-        language_name = "C#"
-    elif extension in ['.c']:
-        language_name = 'C'
-    else:  # elif extension in ['.cpp', '.cxx']:
-        language_name = "C++"
-    return language_name
 
-def printResult(result, silent=False):
-    statusColor = {
-            'AC': 'GREEN',
-            'WA': 'RED',
-            'TLE': 'YELLOW',
-            'MLE': 'BLUE',
-            'RE': 'CYAN'
-            }
+def printResult(lang, result, silent=False):
+    if not silent:
+        print('=' * 30)
+        print(addStyle('BRIGHT', addColor('BLUE', 'Language: '))
+              + addBgColor('BLUE', lang['name']))
+        print('正在编译...')
+
+    compileStatusColor = {'CTLE': 'YELLOW', 'ERROR': 'RED', 'DONE': 'GREEN'}
+
+    compile_status = result.__next__()
+    color = compileStatusColor[compile_status[0]]
+    print(addBgColor(color, compile_status[0])
+          + addColor(color, compile_status[1]), end='')
+    if compile_status[0] == 'DONE':
+        print(addColor(color, ', 用时：%.3fs' % compile_status[2]))
+    else:
+        if not silent:
+            print('\n' + '=' * 30)
+        if compile_status[0] == 'ERROR':
+            os.system('cat temp/compile.log')
+            print('=' * 30)
+        return False
+
+    statusColor = {'AC': 'GREEN', 'WA': 'RED', 'TLE': 'YELLOW',
+                   'MLE': 'BLUE', 'RE': 'CYAN'}
     if silent:
         num = {'AC': 0, 'WA': 0, 'TLE': 0, 'MLE': 0, 'RE': 0}
         for tesk in result:
             st = tesk[1].status
-            print(addBackgroundColor(statusColor[st], st[0]), end='')
+            print(addBgColor(statusColor[st], st[0]), end='')
             num[st] += 1
             sys.stdout.flush()
         print()
         for st in statusColor:
             if not num[st]:
                 continue
-            print(addBackgroundColor(statusColor[st], st[0] + ':%d' % num[st]),
+            print(addBgColor(statusColor[st], st[0] + ':%d' % num[st]),
                   end=' ')
         print()
     else:
         print('=' * 30)
         print('测试点\t状态\t内存\t时间')
         print('=' * 30)
+        tot_time = 0
+        max_memory = 0
         for tesk in result:
             s = str(tesk[0]) + '\t'
             st = tesk[1].status
-            s += addBackgroundColor(statusColor[st], st) + '\t'
+            s += addBgColor(statusColor[st], st) + '\t'
             s += str(int(tesk[1].memory_used)) + 'MB' + '\t'
             s += ('%.3f' % (tesk[1].time_used / 1000)) + 's' + '\t'
+            if tesk[1].status == 'AC':
+                tot_time += tesk[1].time_used
+                max_memory = max(max_memory, tesk[1].memory_used)
             print(s)
         print('=' * 30)
+        print('总时:%.3fs\n最大空间:%dMB' % (tot_time / 1000, int(max_memory)))
+    return True
 
 
 def checkFiles(config):
@@ -136,7 +136,8 @@ def genConfig(fileName):
     if os.path.exists(fileName):
         ans = input('文件{}已存在，是否要覆盖(Y/n)？'.format(fileName)).strip()
         while ans != '' and (len(ans) > 1 or ans not in 'YyNn'):
-            ans = input('文件{}已存在，是否要覆盖(Y/n)？'.format(fileName)).strip()
+            ans = input(
+                '文件{}已存在，是否要覆盖(Y/n)？'.format(fileName)).strip()
         if ans == 'N' or ans == 'n':
             return
 
@@ -194,31 +195,19 @@ def main():
                     'Compiling Parameter', '')
         if arguments['--judge'] is not None:
             config['Source'] = arguments['--judge']
+
         checkFiles(config)
-        compiler = judge.Compiler(config)
+
         is_silent = arguments['--silent']
-        if not is_silent:
-            print('=' * 30)
-            print(addStyle('BRIGHT', addColor('BLUE', 'Language: ')) + addBackgroundColor('BLUE', getExtensionInfo(config['Source'])))
-            print('正在编译...')
-        compile_status = compiler.compile()
-        if not compile_status[0]:
-            if compile_status[1] >= 9:
-                print(addBackgroundColor('YELLOW', 'CTLE') + ' ' + addColor('YELLOW', '编译超时'))
-            else:
-                print(addBackgroundColor('RED', 'ERROR') + ' ' + addColor('RED', '编译失败'))
-            os.system('cat temp/compile.log')
+
+        judger = Judge(config)
+        if not printResult(getLanguage(config['Source']),
+                           judger.judge(), is_silent):
             exit(1)
-        elif not is_silent:
-            print(addBackgroundColor('GREEN', 'DONE') + ' ' + addColor('GREEN', '编译成功，用时{0:.3f}秒'.format(
-                compile_status[1])))
 
-        judger = judge.Judge(config)
-        printResult(judger.judge(compile_status[2]), is_silent)
-
-        if not is_silent and judger.firstWA is not None:
+        if not is_silent and judger.runner.firstWA is not None:
             print('你在第{}个测试点出错了，\ndiff信息在diff_log中'.format(
-                judger.firstWA))
+                judger.runner.firstWA))
             print('=' * 30)
     except FileNotFoundError as e:
         print('错误：' + str(e))
