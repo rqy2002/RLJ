@@ -4,20 +4,19 @@
 
 一个便捷的本地评测器。By \_rqy & Margatroid.
 
-![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.jpg)
-![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/2.jpg)
-![屏幕截图](https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/3.jpg)
+*若您遇到问题，请提出issue.*
 
+[屏幕截图](https://github.com/rqy1458814497/RLJ/blob/master/screenshoots)
 
 ## 安装
 
-可以通过 ``pip3`` 安装。 **
+可以通过 ``pip3`` 安装。
 
 ```bash
  $ pip3 install --upgrade rlj
 ```
 
-或者通过 ``git``
+或者通过 ``git`` 。***Note:*** 如果您以此方式安装，请自行安装依赖 (docopt, colorama, psutil). 
 
 ```bash
  $ git clone git@github.com:rqy1458814497/RLJ.git
