@@ -12,8 +12,10 @@
 
 可以通过 ``pip3`` 安装。
 
+**不要忘记sudo!!!**
+
 ```bash
- $ pip3 install --upgrade rlj
+ $ sudo pip3 install --upgrade rlj
 ```
 
 或者通过 ``git`` 。***Note:*** 如果您以此方式安装，请自行安装依赖 (docopt, colorama, psutil). 
