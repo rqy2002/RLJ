@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/rqy1458814497/RLJ.svg?branch=master)](https://travis-ci.org/rqy1458814497/RLJ)
 
-一个便捷的本地评测器。By \_rqy & Margatroid.
+一个便捷的本地评测器，具有**实验性**跨平台功能。By \_rqy & Margatroid.
 
 *若您遇到问题，请提出issue.*
 
@@ -25,7 +25,9 @@
  $ cd RLJ
  $ sudo python3 setup.py install
 ```
+### Windows用户
 
+如果您是Windows用户，请您安装`git-bash`
 
 ## 使用
 
@@ -83,7 +85,7 @@
 
 ``--O2`` 可以在运行时制定，参照上文。
 
-### TODO
+## TODO
 
 - [x] Make a todo list.
 - [ ] Special Judge Supporting.
