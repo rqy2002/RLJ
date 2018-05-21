@@ -3,9 +3,9 @@
 import os
 
 
-class LanguageNotSupport(NotImplementedError):
+class LanguageUnsupported(Exception):
     def __init__(self, arg):
-        self.args = arg
+        Exception.__init__(self, 'Unsupported language "{}"'.format(arg))
 
 
 languages = [
@@ -98,4 +98,4 @@ def getLanguage(source):
     for lang in languages:
         if extension in lang['extensions']:
             return lang
-    raise LanguageNotSupport(extension)
+    raise LanguageUnsupported(extension)
