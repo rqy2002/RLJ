@@ -72,6 +72,7 @@ class Config(object):
         self.time_limit = config['Time Limit']
         self.memory_limit = config['Memory Limit']
         self.compiling_parameter = config.get('Compiling Parameter', '')
+        self.silent = argument['--silent']
         if argument['--O2']:
             self.compiling_parameter = '-O2' + self.compiling_parameter
 
