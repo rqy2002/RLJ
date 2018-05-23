@@ -23,6 +23,7 @@ setup(
         'docopt>=0.6.2',
         'colorama>=0.3.9',
         'psutil>=5.4.1',
+        'pyyaml>=3.12',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',

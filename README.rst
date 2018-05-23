@@ -5,7 +5,7 @@ A convenient local judge. By _rqy.
 
  Screenshoot_
 
-.. _Screenshoot: https://raw.githubusercontent.com/rqy1458814497/RLJ/master/screenshoots/1.gif
+.. _Screenshoot: https://github.com/rqy1458814497/RLJ/blob/master/screenshoots
 
 .. contents::
 
@@ -14,11 +14,11 @@ A convenient local judge. By _rqy.
 Install
 =======
 
-You can install it by ``pip3``.
+You can install it by ``pip3``. Dont forget ``sudo``.
 
 .. code-block:: bash
 
- $ pip3 install --upgrade rlj
+ $ sudo pip3 install --upgrade rlj
 
 Or by ``git``
 
@@ -35,30 +35,31 @@ Usage
 Config File
 -----------
 
-Make a File named ``config.json``, It should include:
+Make a File named ``config.yml``, It should include:
 
 ``Source``(optional),  ``Input``,  ``Output``,  ``#``,  ``Time Limit``,  ``Memory Limit``, ``Compiling Parameter``.
 
 For example:
 
-.. code-block:: json
+.. code-block:: yaml
 
- {
-   "Source"       : "example.cpp",
-   "Input"        : "example#.in",
-   "Output"       : "example#.ans",
-   "#"            : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-   "Time Limit"   : 1000,
-   "Memory Limit" : 128
- }
+ Source: example.cpp
+ Input Data: example(\d*)\.in
+ Output Data: example(\d*)\.ans
+ Time Limit: 1000
+ Memory Limit: 128
 
-A easier way is run:
+Where ``Input Data/Output Data`` uses regular expressions.
+
+Two i/o data will be matched if they match the regular expression with the same contents of each group.
+
+An easier way is run:
 
 .. code-block:: bash
 
  $ rlj --genConfig [FILE]
 
-to generate ``config.json`` (and use the argument 'FILE' to modify its name).
+to generate ``config.yml`` (and use the argument 'FILE' to modify its name).
 
 Data
 ----
@@ -66,6 +67,8 @@ Data
 Please place all data files under the folder ``data``.
 
 e.g. in the case of the config file above,  There should be these files in ``data``: ``example1.in``, ``example1.ans``, ``example2.in``, and so on.
+
+You can also set ``Data Dir`` in ``config.yml`` to modify the path to datas.
 
 
 Judge
@@ -86,6 +89,6 @@ Compiling Parameter
 
 No parameter is applied when compiling by default.
 
-You can add ``Compiling Parameter`` in ``config.json``.
+You can add ``Compiling Parameter`` in ``config.yml``.
 
 ``--O2`` is able to be set when running. See above.

@@ -1,0 +1,4 @@
+Input Data: test(\d*)\.in
+Output Data: test(\d*)\.ans
+Time Limit: 100
+Memory Limit: 1

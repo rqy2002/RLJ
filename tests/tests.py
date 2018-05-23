@@ -1,20 +1,25 @@
 # import pytest
-from rlj import Judge, JudgeStatus
+from rlj import Judge, JudgeStatus, Config
 import os
 
-config = {
-    'Input': 'test#.in',
-    'Output': 'test#.ans',
-    '#': [1, 2],
-    'Time Limit': 100,
-    'Memory Limit': 1
+
+arguments = {
+    '--O2': False,
+    '--delete': False,
+    '--genConfig': False,
+    '--help': False,
+    '--silent': False,
+    '--version': False,
+    '-c': 'config.yml',
+    '-j': None,
+    'FILE': None
 }
 
 
 def getConfig(st):
-    new_config = config.copy()
-    new_config['Source'] = st + '.cpp'
-    return new_config
+    new_arg = arguments.copy()
+    new_arg['-j'] = st + '.cpp'
+    return Config('config.yml', new_arg)
 
 
 def runTest1(st):
@@ -22,8 +27,10 @@ def runTest1(st):
     compile_status = result[0]
     assert compile_status[0] == 'DONE'
     assert compile_status[1] == '编译成功'
-    assert result[1] == (1, JudgeStatus(st, 2, 0.5, 0))
-    assert result[2] == (2, JudgeStatus(st, 2, 0.5, 0))
+    assert result[1] == (1, ('data/test1.in', 'data/test1.ans'),
+                         JudgeStatus(st, 2, 0.5, 0))
+    assert result[2] == (2, ('data/test2.in', 'data/test2.ans'),
+                         JudgeStatus(st, 2, 0.5, 0))
 
 
 def test_1():
