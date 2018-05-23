@@ -3,5 +3,5 @@ python:
   - "3.5"
   - "3.6"
   - "pypy3"
-install: pip install tox-travis psutil colorama
+install: pip install tox-travis psutil colorama pyyaml
 script: tox
