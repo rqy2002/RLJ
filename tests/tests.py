@@ -1,5 +1,5 @@
 # import pytest
-from rlj import Judge, JudgeStatus, Config
+from rlj import Judge, JudgeStatus, Config, makeConfig
 import os
 
 
@@ -19,12 +19,14 @@ arguments = {
 def getConfig(st):
     new_arg = arguments.copy()
     new_arg['-j'] = st + '.cpp'
-    return Config('config.yml', new_arg)
+    return makeConfig('config.yml', new_arg)
 
 
 def runTest1(st):
     result = list(Judge(getConfig(st)).judge())
     compile_status = result[0]
+    print(result)
+    print(compile_status)
     assert compile_status[0] == 'DONE'
     assert compile_status[1] == '编译成功'
     assert result[1] == (1, ('data/test1.in', 'data/test1.ans'),
