@@ -58,24 +58,25 @@ def matchData(rIn, rOut, data_dir):
 
 
 class Config(object):
-    def __init__(self, config_file, argument):
-        with open(config_file) as f:
-            config = yaml.load(f.read())
-        if argument['-j'] is not None:
-            self.source = argument['-j']
-        else:
-            self.source = config['Source']
-        data_dir = config.get('Data Dir', 'data/')
+    def __init__(self, config):
+        self.source = config['Source']
         rIn = re.compile(config.get('Input Data', '.*(\\d*)\\.in'))
         rOut = re.compile(config.get('Output Data', '.*(\\d*)\\.(?:out|ans)'))
-        self.datas = matchData(rIn, rOut, data_dir)
+        self.datas = matchData(rIn, rOut, config.get('Data Dir', 'data/'))
         self.time_limit = config['Time Limit']
         self.memory_limit = config['Memory Limit']
         self.compiling_parameter = config.get('Compiling Parameter', '')
-        self.silent = argument['--silent']
-        if argument['--O2']:
-            self.compiling_parameter = '-O2' + self.compiling_parameter
+        self.silent = config['Silent']
 
+def makeConfig(config_file, argument):
+        with open(config_file) as f:
+            config = yaml.load(f.read())
+        if argument['-j'] is not None:
+            config['Source'] = argument['-j']
+        if argument['--O2']:
+            config['Compiling Parameter'] = '-O2 ' + config.get('Compiling Parameter', '')
+        config['Silent'] = argument['--silent']
+        return Config(config)
 
 def genConfig(fileName):
     def getArgument(name, default=None, indent=0):
